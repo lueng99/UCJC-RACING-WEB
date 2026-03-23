@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCJC Racing — Formula Student</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #D40000;
+    --red-hot: #FF1801;
+    --dark: #0a0a0a;
+    --darker: #050505;
+    --gray: #1a1a1a;
+    --mid: #333;
+    --silver: #888;
+    --light: #f0f0f0;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--darker);
+    color: var(--light);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(2px);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-logo img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+  }
+
+  .nav-logo span { color: var(--red-hot); }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--red-hot); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('IMG_6341.jpg');
+    background-size: cover;
+    background-position: center top;
+    filter: brightness(0.55) contrast(1.1);
+    transform: scale(1.04);
+    animation: heroZoom 20s ease-out forwards;
+  }
+
+  @keyframes heroZoom {
+    from { transform: scale(1.04); }
+    to   { transform: scale(1.0); }
+  }
+
+  /* Red gradient overlay at bottom */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(to top, var(--darker) 0%, rgba(5,5,5,0.5) 35%, transparent 65%),
+      linear-gradient(to right, rgba(212,0,0,0.08) 0%, transparent 60%);
+  }
+
+  /* Scroll-following red line */
+  .scroll-line {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 5px;
+    background: linear-gradient(to bottom, transparent, var(--red-hot) 40%, var(--red-hot) 60%, transparent);
+    box-shadow: 0 0 18px 4px rgba(255,24,1,0.7), 0 0 40px 8px rgba(255,24,1,0.3);
+    height: 160px;
+    z-index: 999;
+    pointer-events: none;
+    border-radius: 3px;
+    will-change: transform;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 60px 80px;
+    animation: heroFade 1s ease-out 0.5s both;
+  }
+
+  @keyframes heroFade {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 1px;
+    background: var(--red-hot);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .hero-title .outline {
+   -webkit-text-stroke: 5px var(--white);
+    color: #050505;
+   paint-order: stroke fill;
+  }
+
+  .hero-title .red { color: var(--red-hot); }
+
+  .hero-subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 40px;
+    margin-top: 12px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 50px;
+  }
+
+  .stat {
+    border-left: 2px solid var(--red);
+    padding-left: 16px;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-top: 2px;
+  }
+
+  /* scroll cue */
+  .scroll-cue {
+    position: absolute;
+    bottom: 30px;
+    right: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+    animation: float 2s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(8px); }
+  }
+
+  .scroll-cue span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--silver);
+    writing-mode: vertical-rl;
+  }
+
+  .scroll-cue::after {
+    content: '';
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--silver), transparent);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 60px;
+  }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--red-hot);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: 0.04em;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 30px;
+  }
+
+  /* ── VIDEO ── */
+  #video {
+    background: var(--darker);
+    border-top: 1px solid #1e1e1e;
+    padding: 100px 60px;
+  }
+
+  .video-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .video-left {}
+
+  .video-wrapper {
+    position: relative;
+    background: #000;
+    border: 1px solid #222;
+    overflow: hidden;
+    box-shadow: 0 0 80px rgba(212,0,0,0.15);
+  }
+
+  .video-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--red);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .video-wrapper video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: cover;
+  }
+
+  .video-desc {
+    font-size: 0.95rem;
+    color: #999;
+    line-height: 1.8;
+    font-weight: 300;
+    margin-top: 16px;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    background: var(--dark);
+    border-top: 1px solid #1e1e1e;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #aaa;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .about-text p strong {
+    color: var(--light);
+    font-weight: 500;
+  }
+
+  .about-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .info-card {
+    background: var(--gray);
+    padding: 30px 24px;
+    border-top: 3px solid var(--red);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .info-card:hover {
+    background: #222;
+    border-color: var(--red-hot);
+  }
+
+  .info-card .icon {
+    font-size: 1.6rem;
+    margin-bottom: 14px;
+  }
+
+  .info-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .info-card p {
+    font-size: 0.82rem;
+    color: var(--silver);
+    line-height: 1.6;
+  }
+
+  /* ── AVANCES ── */
+  #avances {
+    background: var(--darker);
+    border-top: 1px solid #1e1e1e;
+  }
+
+  .avances-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+
+  .add-btn {
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 12px 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
+  }
+
+  .add-btn:hover {
+    background: var(--red-hot);
+    transform: translateY(-2px);
+  }
+
+  /* Modal */
+  .modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-bg.open { display: flex; }
+
+  .modal {
+    background: var(--gray);
+    border: 1px solid #333;
+    border-top: 3px solid var(--red-hot);
+    padding: 40px;
+    width: 540px;
+    max-width: 90vw;
+    animation: modalIn 0.3s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .modal label {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 6px;
+    margin-top: 18px;
+  }
+
+  .modal input,
+  .modal textarea,
+  .modal select {
+    width: 100%;
+    background: var(--dark);
+    border: 1px solid #333;
+    border-bottom: 2px solid var(--red);
+    color: var(--white);
+    padding: 10px 14px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  .modal input:focus,
+  .modal textarea:focus { border-color: var(--red-hot); }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    justify-content: flex-end;
+  }
+
+  .btn-cancel {
+    background: transparent;
+    border: 1px solid #444;
+    color: var(--silver);
+    padding: 10px 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-cancel:hover { border-color: var(--silver); color: var(--white); }
+
+  .btn-save {
+    background: var(--red);
+    border: none;
+    color: var(--white);
+    padding: 10px 28px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-save:hover { background: var(--red-hot); }
+
+  /* Updates grid */
+  .updates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .update-card {
+    background: var(--gray);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+    border: 1px solid #222;
+  }
+
+  .update-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+
+  .card-photo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 2px solid var(--red);
+  }
+
+  .card-no-photo {
+    width: 100%;
+    height: 200px;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid var(--red);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: #222;
+    letter-spacing: 0.1em;
+  }
+
+  .card-body {
+    padding: 22px 24px;
+  }
+
+  .card-date {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 0.84rem;
+    color: #888;
+    line-height: 1.7;
+  }
+
+  .card-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid #333;
+    color: #666;
+    font-size: 0.75rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .update-card:hover .card-delete { opacity: 1; }
+  .card-delete:hover { color: var(--red-hot); border-color: var(--red-hot); }
+
+  /* Photo upload area in modal */
+  .photo-upload-area {
+    border: 2px dashed #333;
+    background: var(--dark);
+    padding: 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+
+  .photo-upload-area:hover {
+    border-color: var(--red);
+    background: #0f0f0f;
+  }
+
+  .photo-upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+  }
+
+  .photo-upload-area .upload-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .photo-upload-area .upload-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--silver);
+  }
+
+  .photo-preview {
+    display: none;
+    position: relative;
+    margin-top: 0;
+  }
+
+  .photo-preview img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-preview .remove-photo {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.8);
+    border: 1px solid #444;
+    color: var(--white);
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .empty-state {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 80px 0;
+    color: #444;
+  }
+
+  .empty-state .big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    letter-spacing: 0.1em;
+    color: #222;
+    margin-bottom: 12px;
+  }
+
+  .empty-state p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #444;
+  }
+
+  .member-linkedin {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .member-linkedin:hover {
+    color: var(--white);
+    border-color: var(--white);
+  }
+
+  /* ── COMPETITION ── */
+  #competicion {
+    background: var(--dark);
+    border-top: 1px solid #1e1e1e;
+  }
+
+  .comp-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .comp-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    height: 220px;
+    background: var(--gray);
+    border: 2px solid var(--red);
+    border-radius: 50%;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    box-shadow: 0 0 60px rgba(212,0,0,0.2), inset 0 0 40px rgba(212,0,0,0.05);
+  }
+
+  .comp-badge .year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--red-hot);
+    line-height: 1;
+  }
+
+  .comp-badge .event {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-top: 4px;
+    padding: 0 20px;
+    line-height: 1.4;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid #1e1e1e;
+    position: relative;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 120px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: var(--red);
+    border-radius: 50%;
+  }
+
+  .t-phase {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    text-align: right;
+    padding-right: 30px;
+  }
+
+  .t-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .t-desc {
+    font-size: 0.82rem;
+    color: var(--silver);
+    line-height: 1.6;
+  }
+
+  /* ── TEAM ── */
+  #equipo {
+    background: var(--darker);
+    border-top: 1px solid #1e1e1e;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 2px;
+    margin-top: 50px;
+  }
+
+  .member {
+    background: var(--gray);
+    padding: 32px 24px;
+    text-align: center;
+    transition: background 0.2s;
+  }
+
+  .member:hover { background: #222; }
+
+  .member-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--mid);
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: var(--red-hot);
+    border: 2px solid var(--red);
+  }
+
+  .member-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .member-role {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+  }
+
+  /* ── GANTT ── */
+  .gantt-wrap {
+    margin-top: 50px;
+    overflow-x: auto;
+  }
+
+  .gantt-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .gantt-label-col {
+    min-width: 220px;
+    width: 220px;
+    flex-shrink: 0;
+  }
+
+  .gantt-months {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    flex: 1;
+    min-width: 550px;
+  }
+
+  .gantt-month {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--silver);
+    text-align: center;
+    padding: 6px 0;
+    border-left: 1px solid #1e1e1e;
+  }
+
+  .gantt-row {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #161616;
+    min-height: 44px;
+  }
+
+  .gantt-row:hover { background: rgba(255,255,255,0.02); }
+
+  .gantt-task-name {
+    min-width: 220px;
+    width: 220px;
+    flex-shrink: 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #aaa;
+    padding: 8px 16px 8px 0;
+    text-transform: uppercase;
+  }
+
+  .gantt-track {
+    position: relative;
+    flex: 1;
+    min-width: 550px;
+    height: 44px;
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent calc(100% / 11 - 1px),
+      #1a1a1a calc(100% / 11 - 1px),
+      #1a1a1a calc(100% / 11)
+    );
+  }
+
+  .gantt-bar {
+    position: absolute;
+    left: calc((var(--gs) - 1) / 11 * 100% + 3px);
+    width: calc(var(--gw) / 11 * 100% - 6px);
+    top: 50%;
+    transform: translateY(-50%);
+    height: 26px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
+    transition: filter 0.2s, transform 0.2s;
+  }
+
+  .gantt-bar:hover {
+    filter: brightness(1.25);
+    transform: translateY(-50%) scaleY(1.1);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--darker);
+    border-top: 1px solid #1e1e1e;
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+  }
+
+  .footer-logo span { color: var(--red-hot); }
+
+  footer p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: #444;
+    text-transform: uppercase;
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+    backdrop-filter: blur(6px);
+  }
+
+  .lightbox-bg.open { display: flex; }
+
+  .lightbox-bg img {
+    max-width: 94vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border: 1px solid #333;
+    box-shadow: 0 0 60px rgba(255,24,1,0.2);
+    cursor: default;
+    animation: lbIn 0.25s ease;
+  }
+
+  @keyframes lbIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--silver);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+  }
+
+  .lightbox-close:hover { color: var(--red-hot); }
+
+  .card-photo-wrap {
+    position: relative;
+    cursor: zoom-in;
+    overflow: hidden;
+  }
+
+  .card-photo-wrap::after {
+    content: '⤢';
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    background: rgba(0,0,0,0.7);
+    color: var(--white);
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+
+  .card-photo-wrap:hover::after { opacity: 1; }
+
+  /* ── MOBILE HAMBURGER ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+    z-index: 200;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background: var(--white);
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,5,5,0.98);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .mobile-menu a:hover,
+  .mobile-menu a:active { color: var(--red-hot); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    .hero { min-height: 100svh; }
+    .hero-content { padding: 0 20px 70px; }
+    .hero-title { font-size: clamp(3.5rem, 14vw, 6rem); }
+    .hero-subtitle { font-size: clamp(0.8rem, 3vw, 1.1rem); letter-spacing: 0.15em; margin-bottom: 28px; }
+    .hero-stats { gap: 20px; flex-wrap: wrap; }
+    .stat-num { font-size: 1.8rem; }
+    .scroll-cue { display: none; }
+    .nav-logo { font-size: 1.3rem; gap: 8px; }
+    .nav-logo img { width: 36px; height: 36px; }
+
+    section { padding: 60px 20px; }
+    #video { padding: 60px 20px; }
+    .video-wrapper video { max-height: none; height: auto; }
+
+    #about { gap: 36px; }
+    .about-right { grid-template-columns: 1fr !important; }
+    .info-card[style*="grid-column"] { grid-column: 1 !important; }
+    .section-title { font-size: clamp(2rem, 9vw, 3.5rem); }
+
+    .updates-grid { grid-template-columns: 1fr; gap: 12px; }
+
+    .gantt-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .gantt-label-col { min-width: 110px; width: 110px; }
+    .gantt-task-name { min-width: 110px; width: 110px; font-size: 0.6rem; padding-right: 8px; }
+    .gantt-months { min-width: 380px; }
+    .gantt-track { min-width: 380px; }
+    .gantt-bar { font-size: 0.55rem; height: 22px; }
+
+    .team-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .member { padding: 24px 16px; }
+
+    footer { flex-direction: column; gap: 14px; text-align: center; padding: 30px 20px; }
+
+    .scroll-line { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: clamp(3rem, 16vw, 4.5rem); }
+    .hero-stats { flex-direction: row; gap: 16px; }
+    .team-grid { grid-template-columns: 1fr; }
+    .member-name { font-size: 0.85rem; }
+    .info-card { padding: 22px 18px; }
+    .info-card h4 { font-size: 0.9rem; }
+    .info-card p { font-size: 0.78rem; }
+    .card-body { padding: 16px 18px; }
+    .card-title { font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><img src="logo_transparent.png" alt="UCJC Racing Logo">UCJC<span>·</span>RACING</div>
+  <ul class="nav-links">
+    <li><a href="#video">Vídeo</a></li>
+    <li><a href="#about">Proyecto</a></li>
+    <li><a href="#avances">Noticias</a></li>
+    <li><a href="#competicion">Organización</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#video"       onclick="closeMobile()">Vídeo</a>
+  <a href="#about"       onclick="closeMobile()">Proyecto</a>
+  <a href="#avances"     onclick="closeMobile()">Noticias</a>
+  <a href="#competicion" onclick="closeMobile()">Organización</a>
+  <a href="#equipo"      onclick="closeMobile()">Equipo</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="scroll-line" id="scrollLine"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">Formula Student Alpe Adria</div>
+    <h1 class="hero-title">
+      UCJC<br>
+      <span class="outline">RACING</span>
+    </h1>
+    <p class="hero-subtitle">No driver. No limits.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">2026</div>
+        <div class="stat-label">Temporada</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">FS</div>
+        <div class="stat-label">Formula Student<br>Alpe Adria</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span>Scroll</span></div>
+</section>
+
+<!-- VIDEO -->
+<section id="video">
+  <div style="max-width:900px; margin:0 auto;">
+    <div class="section-label" style="margin-bottom:20px;">Presentación Oficial</div>
+    <div class="video-wrapper">
+      <video controls preload="metadata">
+        <source src="presentacion.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de vídeo.
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text">
+    <div class="section-label">Sobre el Proyecto</div>
+    <h2 class="section-title">QUIÉNES SOMOS</h2>
+    <p>
+      Somos el primer equipo de la Universidad Camilo José Cela en competir en Formula Student Alpe Adria.
+    </p>
+    <p>
+      Somos cuatro estudiantes de Ingeniería Robótica e IA y de Ingeniería Informática decididos a llevar el aprendizaje de las aulas mucho más allá.
+    </p>
+    <p>
+      Este es nuestro primer proyecto de muchos, queriendo ir superándonos año por año.
+    </p>
+    <p style="color:var(--white); font-weight:500; font-size:1.05rem;">¿Preparados?</p>
+  </div>
+  <div class="about-right" style="grid-template-columns:1fr 1fr; gap: 2px;">
+    <div class="info-card">
+      <h4>Relaciones con la Directiva</h4>
+      <p style="margin-bottom:6px; color:#ccc; font-size:0.78rem;">Álvaro Luengo Rubias</p>
+      <p>Enlace oficial con la organización de la competición. Gestiona licencias, inscripciones y datos. Durante la carrera, actúa como voz del equipo ante los jueces, gestionando incidencias y sanciones.</p>
+    </div>
+    <div class="info-card">
+      <h4>RRPP</h4>
+      <p style="margin-bottom:6px; color:#ccc; font-size:0.78rem;">Guillermo Romo Sánchez</p>
+      <p>Conecta el proyecto con el mundo exterior. Busca empresas y entidades que quieran apoyar el camino. Mantiene relación fluida con la Universidad y gestiona colaboraciones externas.</p>
+    </div>
+    <div class="info-card">
+      <h4>Marketing</h4>
+      <p style="margin-bottom:6px; color:#ccc; font-size:0.78rem;">Eva María Ramos Juárez</p>
+      <p>Cuenta nuestra historia y transmite la emoción del proyecto. Gestiona redes sociales para crear comunidad y crea contenido visual que muestre el esfuerzo del equipo.</p>
+    </div>
+    <div class="info-card">
+      <h4>Emprendimiento y Gestión</h4>
+      <p style="margin-bottom:6px; color:#ccc; font-size:0.78rem;">Álvaro Luengo Rubias · Florentin Viorel Delgado · Eva María Ramos Juárez</p>
+      <p>Vela por la viabilidad y sostenibilidad del proyecto. Administra el presupuesto con responsabilidad y planifica con visión de futuro para asegurar la continuidad del equipo.</p>
+    </div>
+    <div class="info-card">
+      <h4>Investigación</h4>
+      <p style="margin-bottom:6px; color:#ccc; font-size:0.78rem;">Eva María Ramos Juárez · Florentin Viorel Delgado</p>
+      <p>Analiza el comportamiento del coche y sus datos. Estudia resultados de simulaciones para detectar patrones y diseña estrategias basadas en datos para aumentar el rendimiento.</p>
+    </div>
+    <div class="info-card">
+      <h4>Creación de Código</h4>
+      <p style="margin-bottom:6px; color:#ccc; font-size:0.78rem;">Álvaro · Eva · Florentin · Guillermo</p>
+      <p>Transforma ideas de ingeniería en software funcional. Diseña y desarrolla modelos de control en Simulink, coordinando con otros departamentos para un código sólido y ejecutable.</p>
+    </div>
+    <div class="info-card" style="grid-column: 1 / -1;">
+      <h4>Implementación</h4>
+      <p style="margin-bottom:6px; color:#ccc; font-size:0.78rem;">Álvaro Luengo Rubias</p>
+      <p>Integra todo el código en el entorno de simulación CarMaker. Pone el sistema a prueba en distintos escenarios y extrae la telemetría necesaria para que el equipo de Investigación pueda seguir evolucionando el coche.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AVANCES -->
+<!-- ============================================================
+     CÓMO AÑADIR UNA NOTICIA:
+     Copia este bloque, pégalo justo después del comentario "PEGA AQUÍ":
+
+     <div class="update-card">
+       <div class="card-photo-wrap" onclick="openLightbox('fotos/mifoto.jpg','Título')">
+         <img class="card-photo" src="fotos/mifoto.jpg" alt="Título"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+         <div class="card-no-photo" style="display:none;">UCJC</div>
+       </div>
+       <div class="card-body">
+         <div class="card-date">DD mes AAAA</div>
+         <div class="card-title">Título</div>
+         <div class="card-desc">Descripción.</div>
+       </div>
+     </div>
+
+     Al hacer clic en la foto se abre en pantalla completa automáticamente.
+     ============================================================ -->
+<section id="avances">
+  <div class="avances-header">
+    <div>
+      <div class="section-label">Últimas Noticias</div>
+      <h2 class="section-title">NOTICIAS</h2>
+    </div>
+  </div>
+
+  <div class="updates-grid">
+
+    <!-- ★ PEGA AQUÍ LAS NUEVAS NOTICIAS (la más reciente primero) ★ -->
+
+    <!-- MODELO 3D OPERATIVO -->
+    <div class="update-card">
+      <div class="card-photo-wrap" onclick="openLightbox('FULLRENDER.png', 'Modelo 3D Operativo — UCJC Racing')">
+        <img class="card-photo" src="FULLRENDER.png" alt="Modelo 3D Operativo — UCJC Racing"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+             style="object-fit:contain; background:#000;">
+        <div class="card-no-photo" style="display:none;">UCJC</div>
+      </div>
+      <div class="card-body">
+        <div class="card-date">23 marzo 2026</div>
+        <div class="card-title">Modelo 3D Operativo</div>
+        <div class="card-desc">El diseño digital de nuestro monoplaza ya está integrado en el simulador — un paso clave para validar las físicas, las cajas de colisión y el comportamiento dinámico del vehículo. El chasis virtual ya está en pista.</div>
+      </div>
+    </div>
+
+    <!-- PRIMERA SEMANA DE CÓDIGO -->
+    <div class="update-card">
+      <div class="card-video-wrap">
+        <video controls preload="metadata" style="width:100%;height:200px;object-fit:cover;display:block;border-bottom:2px solid var(--red);">
+          <source src="videoplayback.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="card-body">
+        <div class="card-date">23 marzo 2026</div>
+        <div class="card-title">Primera Semana de Código</div>
+        <div class="card-desc">Empezando a probar algoritmos. Primera toma de contacto con el entorno de simulación — todavía hay mucho margen de mejora, pero el coche empieza a moverse.</div>
+      </div>
+    </div>
+
+    <!-- SKIN DEL COCHE OFICIAL -->
+    <div class="update-card">
+      <div class="card-photo-wrap" onclick="openLightbox('Skin.png', 'Skin oficial UCJC Racing')">
+        <img class="card-photo" src="Skin.png" alt="Skin oficial UCJC Racing"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+             style="object-fit:contain; background:#000;">
+        <div class="card-no-photo" style="display:none;">UCJC</div>
+      </div>
+      <div class="card-body">
+        <div class="card-date">22 marzo 2026</div>
+        <div class="card-title">Coche Oficial</div>
+        <div class="card-desc">Este es el diseño oficial de la skin del monoplaza de UCJC Racing para la temporada 2026. Rojo UCJC, número 99 y los colores de la Universidad Camilo José Cela — así competiremos en Alpe Adria. <em style="color:var(--red-hot); font-style:normal;">Error 404: Driver Not Found.</em></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPETICION -->
+<section id="competicion">
+  <div class="section-label">Planificación</div>
+  <h2 class="section-title">ORGANIZACIÓN <span style="color:var(--red-hot)">2026</span></h2>
+
+  <div class="gantt-wrap">
+    <!-- Month headers -->
+    <div class="gantt-header">
+      <div class="gantt-label-col"></div>
+      <div class="gantt-months">
+        <div class="gantt-month">ENE</div>
+        <div class="gantt-month">FEB</div>
+        <div class="gantt-month">MAR</div>
+        <div class="gantt-month">ABR</div>
+        <div class="gantt-month">MAY</div>
+        <div class="gantt-month">JUN</div>
+        <div class="gantt-month">JUL</div>
+        <div class="gantt-month">AGO</div>
+        <div class="gantt-month">SEP</div>
+        <div class="gantt-month">OCT</div>
+        <div class="gantt-month">NOV</div>
+      </div>
+    </div>
+
+    <!-- Rows — start/span in months (1-indexed, 11 total) -->
+    <!-- CARRERA FINAL: feb–nov -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Carrera Final</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:2;--gw:10;background:#FF1801;box-shadow:0 0 14px rgba(255,24,1,0.6);">Carrera Final</div>
+      </div>
+    </div>
+
+    <!-- MEJORAR TIEMPOS: feb–jun -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Mejorar Tiempos Años Pasado</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:2;--gw:5;background:#c62828;">Mejorar Tiempos</div>
+      </div>
+    </div>
+
+    <!-- CREAR MODELO NUEVO: jul–nov -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Crear Modelo Nuevo y Competir</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:7;--gw:5;background:#b71c1c;">Crear Modelo</div>
+      </div>
+    </div>
+
+    <!-- VERANO: jul–sep -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Verano</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:7;--gw:3;background:#ff6d00;">Verano</div>
+      </div>
+    </div>
+
+    <!-- INVESTIGACION (MODELO ANTERIOR): feb–jun -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Investigación (Modelo Anterior)</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:2;--gw:5;background:#e53935;">Investigación I</div>
+      </div>
+    </div>
+
+    <!-- COMPROBAR ERRORES MODELO ANTERIOR: may–jun -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Comprobar Errores Modelo Anterior</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:5;--gw:2;background:#ff8f00;">Errores</div>
+      </div>
+    </div>
+
+    <!-- INVESTIGACION II: ago–nov -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Investigación II (Nuevo Modelo)</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:8;--gw:4;background:#e64a19;">Investigación II</div>
+      </div>
+    </div>
+
+    <!-- COMPROBAR ERRORES: oct–nov -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Comprobar Errores</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:10;--gw:2;background:#ff5722;">Errores</div>
+      </div>
+    </div>
+
+    <!-- CONSEGUIR ORDENADOR: feb -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Conseguir Ordenador</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:2;--gw:1;background:#d50000;">PC</div>
+      </div>
+    </div>
+
+    <!-- ENTORNO Y LICENCIAS: feb–mar -->
+    <div class="gantt-row">
+      <div class="gantt-task-name">Entorno y Licencias Software</div>
+      <div class="gantt-track">
+        <div class="gantt-bar" style="--gs:2;--gw:2;background:#ff9100;">Entorno</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section id="equipo">
+  <div class="section-label">Nuestro Equipo</div>
+  <h2 class="section-title">EL EQUIPO</h2>
+  <div class="team-grid" id="teamGrid">
+
+    <div class="member">
+      <div class="member-avatar">AL</div>
+      <div class="member-name">Álvaro Luengo Rubias</div>
+      <div class="member-role">Creador · Director</div>
+      <a class="member-linkedin" href="https://www.linkedin.com/in/%C3%A1lvaro-luengo-rubias-73bb73211/" target="_blank" rel="noopener">
+        ↗ LinkedIn
+      </a>
+    </div>
+
+    <div class="member">
+      <div class="member-avatar">ER</div>
+      <div class="member-name">Eva María Ramos Juárez</div>
+      <div class="member-role">Co-creadora · Directiva</div>
+      <a class="member-linkedin" href="https://www.linkedin.com/in/eva-mar%C3%ADa-ramos-ab4804363/" target="_blank" rel="noopener">
+        ↗ LinkedIn
+      </a>
+    </div>
+
+    <div class="member">
+      <div class="member-avatar">FD</div>
+      <div class="member-name">Florentin Viorel Delgado</div>
+      <div class="member-role">Co-creador · Directivo</div>
+      <a class="member-linkedin" href="https://www.linkedin.com/in/stavarache/" target="_blank" rel="noopener">
+        ↗ LinkedIn
+      </a>
+    </div>
+
+    <div class="member">
+      <div class="member-avatar">GR</div>
+      <div class="member-name">Guillermo Romo Sánchez</div>
+      <div class="member-role">Relaciones Públicas</div>
+      <a class="member-linkedin" href="https://www.linkedin.com/in/guillermo-romo-s%C3%A1nchez-973859304/" target="_blank" rel="noopener">
+        ↗ LinkedIn
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">UCJC<span>·</span>RACING</div>
+  <a href="https://www.linkedin.com/search/results/all/?keywords=ucjc-racing&origin=RICH_QUERY_TYPEAHEAD_HISTORY&spellCorrectionEnabled=true&heroEntityKey=urn%3Ali%3Aorganization%3A112349237&position=0" target="_blank" rel="noopener" style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red-hot);text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='var(--red-hot)'" onmouseout="this.style.borderColor='transparent'">↗ Síguenos en LinkedIn</a>
+  <p>Formula Student Alpe Adria — UCJC © 2026</p>
+</footer>
+
+
+<!-- LIGHTBOX -->
+<div class="lightbox-bg" id="lightboxBg" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<!-- MODAL y JS dinámico eliminados — página 100% estática -->
+<script>
+  // ── Mobile menu ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── Lightbox ──
+  function openLightbox(src, alt) {
+    const lb = document.getElementById('lightboxBg');
+    const img = document.getElementById('lightboxImg');
+    img.src = src;
+    img.alt = alt || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightboxBg').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeLightbox(); closeMobile(); }
+  });
+
+  // ── Scroll-following red line — exact 1:1 with scroll ──
+  const scrollLine = document.getElementById('scrollLine');
+  const lineH = 160;
+
+  function updateLine() {
+    const scrollY = window.scrollY;
+    const docH = document.documentElement.scrollHeight;
+    const winH = window.innerHeight;
+    const ratio = Math.min(scrollY / Math.max(docH - winH, 1), 1);
+    const pos = ratio * (winH - lineH);
+    scrollLine.style.transform = 'translateY(' + pos + 'px)';
+  }
+
+  window.addEventListener('scroll', updateLine, { passive: true });
+  updateLine();
+
+  // ── Fade-in on scroll ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.style.opacity = '1';
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('section:not(.hero)').forEach(s => {
+    s.style.opacity = '0';
+    s.style.transition = 'opacity 0.7s ease';
+    observer.observe(s);
+  });
+</script>
+
+</body>
+</html>
